@@ -82,6 +82,9 @@ function load_annotations(data) {
 }
 
 function load_scene_market(data){
+    //set filters for other scenes hidden
+    document.getElementById("dropdown_cylinders_sel").style.visibility = "hidden";
+
     chart.selectAll('circle').remove();
 
     chart.selectAll('circle')

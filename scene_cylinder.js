@@ -40,6 +40,31 @@ function load_scene_cylinder(data) {
     load_annotations_cylinders(data);
     load_labels(data);
     load_filter(data);
+    load_specific_filter(data);
+}
+
+function load_specific_filter(data) {
+
+    //default
+//    d3.select("#dropdown_cylinders").select('select').remove();
+//     d3.select("#dropdown_cylinders").append('select')
+//         .attr("id", "dropdown_cylinders_sel")
+//         .append('option')
+//         .attr('value','all')
+//         .attr('selected', 'selected')
+//         .text("All cylinder types");
+
+    document.getElementById("dropdown_cylinders_sel").style.visibility = "visible";
+
+    let cylinders = d3.map(data, function(d){return d.EngineCylinders;}).keys();
+
+    let l = d3.select("#dropdown_cylinders").select('select').selectAll('option')
+        .data(cylinders)
+        .enter()
+        .append('option')
+        .attr('value', (d,i) => d)
+        .text((d,i) => d === "0" ? d +  " cylinders (electric)" : d +  " cylinders");
+
 }
 
 function load_annotations_cylinders(data) {

@@ -42,23 +42,37 @@ function load_filter(data) {
 
 
 function load_scenes() {
-    if($("#dropdown_makes_sel").val() === "all") {
-        if(current_scene === "market_overview") {
+
+    if(current_scene === "market_overview") {
+        if($("#dropdown_makes_sel").val() === "all") {
             load_scene_market(csv_data);
-        }else if(current_scene === "engine_consumption") {
-            load_scene_cylinder(csv_data);
-        }
-    }else{
-        let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
-        if(current_scene === "market_overview") {
+        }else{
+            let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
             load_scene_market(filtered);
-        }else if(current_scene === "engine_consumption") {
+        }
+    }
+
+    if(current_scene === "engine_consumption") {
+        if($("#dropdown_makes_sel").val() === "all" && $("#dropdown_cylinders_sel").val() === "all") {
+            load_scene_cylinder(csv_data);
+        }else if($("#dropdown_makes_sel").val() !== "all" && $("#dropdown_cylinders_sel").val() === "all") {
+            let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
+            load_scene_cylinder(filtered);
+        }else if($("#dropdown_makes_sel").val() === "all" && $("#dropdown_cylinders_sel").val() !== "all") {
+            let filtered = csv_data.filter((d,i) => d.EngineCylinders === $("#dropdown_cylinders_sel").val())
+            load_scene_cylinder(filtered);
+        }else {
+            let filtered = csv_data.filter((d,i) => d.EngineCylinders === $("#dropdown_cylinders_sel").val() && d.Make.toLowerCase() === $("#dropdown_makes_sel").val());
             load_scene_cylinder(filtered);
         }
     }
+    
 }
 
 $("#dropdown_makes_sel").change(function(){
-    // alert($("#dropdown_makes_sel").val());
+    load_scenes()
+});
+
+$("#dropdown_cylinders_sel").change(function(){
     load_scenes()
 });
