@@ -34,6 +34,7 @@
         #chart_annotation {
             background: whitesmoke;
             padding: 15px;
+            margin-top:20px;
         }
 
         #dropdown_makes {
@@ -49,17 +50,16 @@
 <body onload='init("market_overview")'>
 <div class="container">
     <div id="header_title" class="row">
-        <h1>Fuel economy in cars (2017)</h1>
+        <h1>Fuel economy of cars (2017)</h1>
     </div>
     <div id="header_text"class="row">
-        <p>The following interactive charts show the distribution of fuel consumption of automobile providers (dataset from 2017). It shows up which brand considers more
-            about the environment due to less mpg consumption and electro cars on the market.</p>
+        <p>This interactive slideshow presents the distribution of fuel consumption of automobile providers in 2017. Click on the data points to navigate to the next scene when possible.</p>
     </div>
     <div id="scene_nav" class="row">
         <span>
             <button id="btn-overview" onclick="init('market_overview')" type="button" class="btn btn-info btn-sm">Market</button>
-            <button id="btn-engine" onclick="init('engine_consumption')" type="button" class="btn btn-info btn-sm">Engine Cylinder correlation</button>
-            <button id="btn-fuel" onclick="init('fuel_consumption')" type="button" class="btn btn-info btn-sm">Gas vs. Diesel</button>
+            <button id="btn-fuel" onclick="init('fuel_consumption')" type="button" class="btn btn-info btn-sm">Gas vs. diesel vs. electro cars</button>
+            <button id="btn-engine" onclick="init('engine_consumption')" type="button" class="btn btn-info btn-sm">Cylinders and consumption</button>
 		</span>
     </div>
 
@@ -71,14 +71,23 @@
             <div id="filter">
                 <div id="dropdown_makes">
                     <select id="dropdown_makes_sel">
-                        <option value="all" selected="selected">All Car makes</option>
+                        <option value="-1" selected="selected">All Car makes</option>
                     </select>
                 </div>
                 <div id="dropdown_cylinders">
                     <select id="dropdown_cylinders_sel" style="visibility: hidden">
-                        <option value="all" selected="selected">All cylinder types</option>
+                        <option value="-1" selected="selected">All cylinder types</option>
                     </select>
                 </div>
+                <div id="dropdown_fuel">
+                    <select id="dropdown_fuel_sel" style="visibility: hidden">
+                        <option value="-1" selected="selected">All fuel types</option>
+                        <option value="gasoline">Gasoline</option>
+                        <option value="diesel">Diesel</option>
+                        <option value="electricity">Electricity</option>
+                    </select>
+                </div>
+
                 </div>
             <div id="chart_annotation"></div>
             <div id="chart_legend">

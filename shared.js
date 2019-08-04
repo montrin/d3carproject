@@ -53,7 +53,7 @@ function load_scenes() {
         document.getElementById("btn-engine").className = newCN;
         document.getElementById("btn-fuel").className = newCN;
 
-        if($("#dropdown_makes_sel").val() === "all") {
+        if($("#dropdown_makes_sel").val() === "-1") {
             load_scene_market(csv_data);
         }else{
             let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
@@ -62,17 +62,19 @@ function load_scenes() {
     }
 
     if(current_scene === SCENE_ENGINE) {
-        document.getElementById("btn-engine").className += " active";
         let newCN = document.getElementById("btn-engine").className.replace("btn-sm active", "btn-sm");
+        document.getElementById("btn-engine").className = newCN;
+        document.getElementById("btn-engine").className += " active";
+
         document.getElementById("btn-overview").className = newCN;
         document.getElementById("btn-fuel").className = newCN;
 
-        if($("#dropdown_makes_sel").val() === "all" && $("#dropdown_cylinders_sel").val() === "all") {
+        if($("#dropdown_makes_sel").val() === "-1" && $("#dropdown_cylinders_sel").val() === "-1") {
             load_scene_cylinder(csv_data);
-        }else if($("#dropdown_makes_sel").val() !== "all" && $("#dropdown_cylinders_sel").val() === "all") {
+        }else if($("#dropdown_makes_sel").val() !== "-1" && $("#dropdown_cylinders_sel").val() === "-1") {
             let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
             load_scene_cylinder(filtered);
-        }else if($("#dropdown_makes_sel").val() === "all" && $("#dropdown_cylinders_sel").val() !== "all") {
+        }else if($("#dropdown_makes_sel").val() === "-1" && $("#dropdown_cylinders_sel").val() !== "-1") {
             let filtered = csv_data.filter((d,i) => d.EngineCylinders === $("#dropdown_cylinders_sel").val())
             load_scene_cylinder(filtered);
         }else {
@@ -88,12 +90,20 @@ function load_scenes() {
         document.getElementById("btn-overview").className = newCN;
         document.getElementById("btn-engine").className = newCN;
 
-        if($("#dropdown_makes_sel").val() === "all") {
+
+        if($("#dropdown_makes_sel").val() === "-1" && $("#dropdown_fuel_sel").val() === "-1") {
             load_scene_fuel(csv_data);
-        }else{
+        }else if($("#dropdown_makes_sel").val() !== "-1" && $("#dropdown_fuel_sel").val() === "-1") {
             let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
             load_scene_fuel(filtered);
+        }else if($("#dropdown_makes_sel").val() === "-1" && $("#dropdown_fuel_sel").val() !== "-1") {
+            let filtered = csv_data.filter((d,i) => d.Fuel.toLowerCase() === $("#dropdown_fuel_sel").val())
+            load_scene_fuel(filtered);
+        }else {
+            let filtered = csv_data.filter((d,i) => d.Fuel.toLowerCase() === $("#dropdown_fuel_sel").val() && d.Make.toLowerCase() === $("#dropdown_makes_sel").val());
+            load_scene_fuel(filtered);
         }
+
     }
 }
 
@@ -102,5 +112,9 @@ $("#dropdown_makes_sel").change(function(){
 });
 
 $("#dropdown_cylinders_sel").change(function(){
+    load_scenes()
+});
+
+$("#dropdown_fuel_sel").change(function(){
     load_scenes()
 });

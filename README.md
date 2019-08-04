@@ -1,52 +1,43 @@
-# d3carproject
+# D3 Car Project
 ####Messaging
-With this narrative visualization we convey what car makes work on ecological cars regarding miles per gallon
-consumption and electric car models. We show that most of the car makes did not provide ecological cars in their sortiment in 2017
-and also convey that cars with less cylinders reach more miles per gallon and thus are ecologicaly better suited.
+With this narrative visualization, we convey the message about the fuel consumption of cars in 2017. We look at the miles per gallon attribute as well as fuel type and cylinders. We show that most of the cars aren't electric and have a medium to high fuel consumption.
 
 ####Narrative Structure
-  We provide an interactive slideshow where the user starts on the market overview scene where he/she can then drill-down 
-  information by filtering the car makes. If she/he clicks then on a data circle, she/he gets to the next scene where 
-  the average consumption in relation to the number of cylinders. If the user clicks then on a data points he/she gets
-  navigated to the third scene where we compare diesel and gasoline motors.
+  We provide an interactive slideshow where the user starts on the market overview scene where she/he can then drill-down the
+information by filtering the car makes. If she/he clicks then on a data circle, she/he gets navigated to the next scene where the fuel types are compared to each other. If the user clicks then on a data element, she gets navigated to the third scene where the chart highlights the relation between the number of cylinders and fuel consumption.
   
 #####Visual Structure
-Each scene has the same structure. It contains a textual annotation with details to the scene below the title of the 
-narrative visualization. Three buttons contain the navigation points for the scenes and are visually styled when active
-to indicate the user on which scene he/she is.
-Below the chart and legend labels appear and next to it are the filter area with dropdowns to drill-down on each scene.
-By moving the mouse over details appear in a tooltip and if the user clicks on a data point he/she moves to the next scene,
-to get insights to other aspects. Below the filter area appears a dynamically loaded annotation field that shows 
-specific details according to the scenes and selected filters.
+Each scene has the same structure. Each scene contains a title, then below a textual annotation with general details to the slideshow and three buttons as navigation menu points.
+
+Below the navigation, the chart and legend labels appear, and next to it is the filter area with dropdowns to drill-down information on each scene.
+
+By moving over a data element, the user gets additional details via tooltip. If the user clicks on a data element on the first two scenes, the event coordinates the navigation to the appropriate next scene.
+
+The legend and annotation area below the filter, are loaded dynamically, based on the selected values in the filter.
 
 #####Scenes
-######Market Overview
+######Scene 1: Market
 This scene is the entry of the narrative visualization and shows the market landscape by visualizing all car makes according
-to their mpg consumption in a city and on the highway. It gives the user a general overview. If the user is interested in 
-specific car makes he/she has the ability to filter the data points which reveals better how many cars the car make provides.
+to their city and highway mpg consumption. It gives the user a general overview of the market landscape. If the user is interested in specific car makes she/he can filter the data points by using the appropriate filter. The annotation field then reveals information only about the filtered data. If the user clicks on a data element, she/he gets navigated to the next scene.
 
-######Cylinder Consumption
-This scene highlights the correlation between number of cylinders and mpg consumption and highlights that only a few cars
-were electric in 2017 but that the consumption has a relation to th number of cylinders and that only a few of the car makes
-have low numbered cylinder cars on the market. The user has the possibility to filter by car makes and number of cylinders
-to see what car makes are "high consumers" or "low consumers". 
- 
-######Diesel vs. Gas
-This scene conveys another aspect, namely the type of fuel used. We've seen that only a few cars are electric. This scene 
-reveals that most of them drive with gasoline and that the diesel cars have a lower average consumption, but aren't comparabale
-as the number of data points are much lower than the ones with gas.
+######Scene 2: Gas vs. diesel vs. electro cars
+This scene conveys another aspect, namely the type of fuel used and its relation to the mpg consumption. The data can be filtered by car makes and fuel type. The annotation and legend field re-loads according to the selected values. If the user clicks on a data element, she/he gets navigated to the 3rd scene.
 
+######Scene 3: Cylinders and consumption
+This scene highlights the relation between the number of cylinders and mpg consumption and highlights that fuel consumption has a relation to the number of cylinders. The user can filter by car makes and the number of cylinders.
 
-The scenes start with an overview and highlight on each scene other details to understand what factors influence the consumption.
+The first scene shows an overview, and by drill-down, the user can view different aspects of the data. The ordering is chosen as it is, because of a top-down principle where we look on more general attributes first such as fuel type and then the cylinders.
 
 #####Annotations
-Each scene has its own annotations. The first one appears under the header and explains what the scene visualizes. The 
-second annotation conveys more details about the selection and changes dynamically according to the filter selection.
+Each scene has its annotations, which change dynamically according to the selected values in the filter. Although they contain different data, they contain the same structure, namely header, and text content.
 
 Every annotation appears on the same location so that the user does not get confused.
 
 ####Parameters
+We use scene variables where we hold the current selection of scene. Furthermore, we work with variables for the filter to save the current selection.
+
 ####Triggers
+Click and mouse event listeners ensure that if the user clicks on a navigation button, changes a filter value, or clicks on a data element, the event triggers the appropriate action. To highlight the ability to click on a data element, we change the mouse pointer that indicates a possible action. 
  
 
       

@@ -89,6 +89,7 @@ function load_annotations(data) {
 function load_scene_market(data){
     //set filters for other scenes hidden
     document.getElementById("dropdown_cylinders_sel").style.visibility = "hidden";
+    document.getElementById("dropdown_fuel_sel").style.visibility = "hidden";
 
     // chart.selectAll('circle').remove();
     // chart.selectAll('path').remove();
@@ -129,7 +130,8 @@ function load_scene_market(data){
             tooltip.style("opacity", 0);
         })
         .on("click", function(d) {
-            current_scene = SCENE_ENGINE;
+            tooltip.style("opacity", 0);
+            current_scene = SCENE_FUEL;
             load_scenes();
         });
 
@@ -159,7 +161,7 @@ function load_scene_market(data){
             .tickValues([10,20,50,100])
             .tickFormat(d3.format("~s"))
         );
-    // add y axis label
+    // add x axis label
     chart.append("text")
         .attr("transform",
             "translate(" + (300) + " ," +
