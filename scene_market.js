@@ -26,7 +26,7 @@ function set_legend_pos_grp(labelg,grp, cx, cy) {
         .attr("alignment-baseline","middle");
 
 }
-function load_labels(data) {
+function load_legends(data) {
     let categories = d3.map(data, function(d){return d.Make;}).keys();
 
     let cat_grp1 = categories.slice(0,10);
@@ -38,25 +38,25 @@ function load_labels(data) {
     d3.select("#car-labels-svg").selectAll('g').remove();
 
     let labelg1 = d3.select("#car-labels-svg").append('g')
-        .attr("transform","translate(50,50)");
+        .attr("transform","translate(0,50)");
 
     let labelg2 = d3.select("#car-labels-svg").append('g')
-        .attr("transform","translate(100,50)");
+        .attr("transform","translate(80,50)");
 
     let labelg3 = d3.select("#car-labels-svg").append('g')
-        .attr("transform","translate(150,50)");
+        .attr("transform","translate(140,50)");
 
     let labelg4 = d3.select("#car-labels-svg").append('g')
-        .attr("transform","translate(200,50)");
+        .attr("transform","translate(220,50)");
 
     let labelg5 = d3.select("#car-labels-svg").append('g')
-        .attr("transform","translate(250,50)");
+        .attr("transform","translate(280,50)");
 
-    set_legend_pos_grp(labelg1, cat_grp1, 60, 15);
-    set_legend_pos_grp(labelg2, cat_grp2, 140, 15);
-    set_legend_pos_grp(labelg3, cat_grp3, 200, 15);
-    set_legend_pos_grp(labelg4, cat_grp4, 280, 15);
-    set_legend_pos_grp(labelg5, cat_grp5, 320, 15);
+    set_legend_pos_grp(labelg1, cat_grp1, 10, 15);
+    set_legend_pos_grp(labelg2, cat_grp2, 110, 15);
+    set_legend_pos_grp(labelg3, cat_grp3, 180, 15);
+    set_legend_pos_grp(labelg4, cat_grp4, 230, 15);
+    set_legend_pos_grp(labelg5, cat_grp5, 290, 15);
 }
 
 function load_annotations(data) {
@@ -66,18 +66,23 @@ function load_annotations(data) {
         .rollup(function(v){return v.length})
         .entries(data);
 
-    let text_auto = document.createTextNode(auto_count + " Automobiles");
-    let text_makes = document.createTextNode(makes_count.length + " Makes");
+    let title_node=`<div><h4>Market Overview</h4></div>`;
 
-    let title_node=`<div class="row"><h4>Market Landscape</h4></div>`;
-
-    let auto_node=`<div class="row">${auto_count} Automobiles</div>`;
-    let make_node=`<div class="row">${makes_count.length} Car makes</div>`;
+    let auto_node;
+    if(auto_count === 1){
+        auto_node=`<div>${auto_count} car</div>`;
+    }else{
+        auto_node=`<div>${auto_count} cars</div>`;
+    }
+    let make_node=`<div>${makes_count.length} car makes</div>`;
 
     document.getElementById("chart_annotation").innerHTML="";
     document.getElementById("chart_annotation").innerHTML+=title_node;
     document.getElementById("chart_annotation").innerHTML+=auto_node;
-    document.getElementById("chart_annotation").innerHTML+=make_node;
+
+    if(data.length === csv_data.length){
+        document.getElementById("chart_annotation").innerHTML+=make_node;
+    }
 
 }
 
@@ -105,14 +110,14 @@ function load_scene_market(data){
         .style("stroke", (d,i) => colorScale(d.Make) )
         .on('mouseover', function(d,i) {
             d3.select(this)
-                .attr("r", (d,i) => 8)
+                .attr("r", (d,i) => 18)
                 .style('opacity', 1.0)
                 .style("cursor", "pointer");
 
             tooltip.style("opacity", 1)
-            tooltip.html(d.Make + " " + d.AverageCityMPG + " CityMPG " + d.AverageHighwayMPG + " HighwayMPG")
+            tooltip.html(d.Make)
                 .style("left",(d3.event.pageX)+"px")
-                .style("top",(d3.event.pageY-20)+"px");
+                .style("top",(d3.event.pageY-30)+"px");
 
         })
         .on("mouseout", function(d) {
@@ -129,7 +134,7 @@ function load_scene_market(data){
         });
 
 
-    //add axis
+    // add  y axis
     d3.select('#main_chart')
         .append('g')
         .attr("transform","translate(50,50)")
@@ -138,6 +143,15 @@ function load_scene_market(data){
             .tickFormat(d3.format("~s"))
         );
 
+    // add y axis label
+    chart.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - 20)
+        .attr("x",0 - (700 / 2))
+        .style("text-anchor", "middle")
+        .style("font-size", "0.8em")
+        .text("Average Highway MPG");
+
     d3.select('#main_chart')
         .append('g')
         .attr("transform","translate(50,650)")
@@ -145,9 +159,17 @@ function load_scene_market(data){
             .tickValues([10,20,50,100])
             .tickFormat(d3.format("~s"))
         );
+    // add y axis label
+    chart.append("text")
+        .attr("transform",
+            "translate(" + (300) + " ," +
+            630 + ")")
+        .style("text-anchor", "middle")
+        .style("font-size", "0.8em")
+        .text("Average City MPG");
 
     load_annotations(data);
-    load_labels(data);
+    load_legends(data);
     load_filter(data);
 }
 

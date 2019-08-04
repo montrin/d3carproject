@@ -26,6 +26,24 @@
             background-color: indianred;
         }
 
+        #scene_container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #chart_annotation {
+            background: whitesmoke;
+            padding: 15px;
+        }
+
+        #dropdown_makes {
+            margin-bottom: 20px;
+        }
+
+        #dropdown_cylinders {
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body onload='init("market_overview")'>
@@ -45,12 +63,12 @@
 		</span>
     </div>
 
-    <div id="scene_container" class="row">
-        <div id="scene_chart" class="col-sm">
+    <div id="scene_container">
+        <div id="scene_chart">
             <svg id="main_chart" width=700 height=700></svg>
         </div>
-        <div id="scene_filter" class="col-sm">
-            <div class="container" id="filter">
+        <div id="scene_filter">
+            <div id="filter">
                 <div id="dropdown_makes">
                     <select id="dropdown_makes_sel">
                         <option value="all" selected="selected">All Car makes</option>
@@ -62,16 +80,17 @@
                     </select>
                 </div>
                 </div>
-            <div class="container" id="chart_annotation"></div>
-        </div>
-    </div>
-    <div id="chart_legend" class="row">
-        <div id="car-make-labels">
-            <svg  id="car-labels-svg" height="200" width="700">
-            </svg>
+            <div id="chart_annotation"></div>
+            <div id="chart_legend">
+                <div id="car-make-labels">
+                    <svg  id="car-labels-svg" height="200" width="700">
+                    </svg>
 
+                </div>
+            </div>
         </div>
     </div>
+
 </div>
 
 <script src='https://d3js.org/d3.v5.min.js'></script>

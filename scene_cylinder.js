@@ -1,6 +1,4 @@
 function load_scene_cylinder(data) {
-    // chart.selectAll('circle').remove();
-    // chart.selectAll('path').remove();
 
     d3.select("#main_chart").selectAll('g').remove();
     let chart = d3.select('#main_chart')
@@ -17,17 +15,33 @@ function load_scene_cylinder(data) {
         .attr("r", (d,i) => 2 + + d.EngineCylinders)
         .style("fill", (d,i) => colorScale(d.Make) )
         .on('mouseover', function(d,i) {
+            d3.select(this)
+                .attr("r", (d,i) => 18)
+                .style('opacity', 1.0)
+                .style("cursor", "pointer");
+
             tooltip.style("opacity", 1)
-            tooltip.html(d.Make + " " + d.AverageCityMPG + " CityMPG " + d.AverageHighwayMPG + " HighwayMPG")
+            tooltip.html(d.Make + " " + d.EngineCylinders + " cylinders")
                 .style("left",(d3.event.pageX)+"px")
-                .style("top",(d3.event.pageY-20)+"px");
+                .style("top",(d3.event.pageY-30)+"px");
 
         })
         .on("mouseout", function(d) {
+            d3.select(this)
+                .attr("r", (d,i) => 6)
+                .style('opacity', 0.5)
+                .style("cursor", "default");
+
+
             tooltip.style("opacity", 0);
+        })
+        .on("click", function(d) {
+            current_scene = SCENE_FUEL;
+            load_scenes();
         });
 
-    //add axis
+
+            //add axis
     d3.select('#main_chart')
         .append('g')
         .attr("transform","translate(50,50)")
@@ -45,7 +59,7 @@ function load_scene_cylinder(data) {
         );
 
     load_annotations_cylinders(data);
-    load_labels(data);
+    load_legends(data);
     load_filter(data);
     load_specific_filter(data);
 }
@@ -85,18 +99,27 @@ function load_annotations_cylinders(data) {
             }
         })
         .entries(data);
-    console.log(cylinders.toString());
-    // let text_auto = document.createTextNode(auto_count + " Automobiles2");
-    // let text_makes = document.createTextNode(makes_count.length + " Makes2");
 
-    let title_node=`<div class="row"><h4>Consumption per Cylinders</h4></div>`;
+    let title_node=`<div><h5>Consumption per Cylinders</h5></div>`;
 
-    // let auto_node=`<div class="row">${auto_count} Automobiles</div>`;
-    // let make_node=`<div class="row">${makes_count.length} Car makes</div>`;
 
     document.getElementById("chart_annotation").innerHTML="";
     document.getElementById("chart_annotation").innerHTML+=title_node;
-    // document.getElementById("chart_annotation").innerHTML+=auto_node;
-    // document.getElementById("chart_annotation").innerHTML+=make_node;
+
+    cylinders.forEach(function(d){
+        let content = d.key + " cylinders" + " Average Highway MPG: " + Math.floor(d.value.avgHighway);
+        let cylinders = d.key + " cylinders";
+        let highway = "Average Highway MPG: " + Math.floor(d.value.avgHighway);
+        let city = "Average City MPG: " + Math.floor(d.value.avgCity);
+
+        let text = `<div style="display: flex;flex-direction:row; justify-content:space-evenly;"><span style="margin-right: 100px">${cylinders}</span><span>${highway}</span><span>${city}</span></div>`;
+        document.getElementById("chart_annotation").innerHTML+=text;
+    });
+
+    // d3.select("#chart_annotation").select('div')
+    //     .data(cylinders)
+    //     .enter()
+    //     .append('div')
+    //     .text((d,i) => d.key + " cylinders" + " Average Highway MPG: " + Math.floor(d.value.avgHighway));
 
 }
