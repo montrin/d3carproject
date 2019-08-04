@@ -6,7 +6,7 @@
     <title>Energy economy in cars</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        circle {fill: lightblue; stroke: black;}
+        circle {fill: lightblue; }
         #tooltip {
             position: absolute;
             text-align: center;
@@ -22,6 +22,9 @@
             flex-direction: row;
         }
 
+        button .active {
+            background-color: indianred;
+        }
 
     </style>
 </head>
@@ -36,9 +39,9 @@
     </div>
     <div id="scene_nav" class="row">
         <span>
-            <button onclick="init('market_overview')" type="button" class="btn btn-info btn-sm">Market</button>
-            <button onclick="init('engine_consumption')" type="button" class="btn btn-info btn-sm">Engine Cylinder correlation</button>
-            <button onclick="init('fuel_consumption')" type="button" class="btn btn-info btn-sm">Fuel Consumption</button>
+            <button id="btn-overview" onclick="init('market_overview')" type="button" class="btn btn-info btn-sm">Market</button>
+            <button id="btn-engine" onclick="init('engine_consumption')" type="button" class="btn btn-info btn-sm">Engine Cylinder correlation</button>
+            <button id="btn-fuel" onclick="init('fuel_consumption')" type="button" class="btn btn-info btn-sm">Gas vs. Diesel</button>
 		</span>
     </div>
 
@@ -77,6 +80,7 @@
 <script src='./shared.js'></script>
 <script src='./scene_market.js'></script>
 <script src='./scene_cylinder.js'></script>
+<script src='./scene_fuel.js'></script>
 <script src='./scenes.js'></script>
 
 </body>

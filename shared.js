@@ -1,20 +1,24 @@
-var xScale = d3.scaleLog()
+const SCENE_MARKET = "market_overview";
+const SCENE_ENGINE = "engine_consumption";
+const SCENE_FUEL = "fuel_consumption";
+
+let xScale = d3.scaleLog()
     .domain([10,150])
     .range([0,600]);
 
-var yScale = d3.scaleLog()
+let yScale = d3.scaleLog()
     .domain([10,150])
     .range([600,0]);
 
-var chart = d3.select('#main_chart')
-    .append('g')
-    .attr("transform","translate(50,50)");
+// let chart = d3.select('#main_chart')
+//     .append('g')
+//     .attr("transform","translate(50,50)");
 
-var tooltip = d3.select("body").append("div")
+let tooltip = d3.select("body").append("div")
     .attr("id", "tooltip")
     .style("opacity", 0);
 
-var colorScale = d3.scaleOrdinal()
+let colorScale = d3.scaleOrdinal()
     .domain(["Acura","Alfa Romeo","Aston Martin","Audi","Bentley","BMW","Buick","Cadillac","Chevrolet","Chrysler","Dodge"
         ,"Ferrari","Fiat","Ford","Genesis","GMC","Honda","Hyundai","Infiniti","Jaguar","Jeep","Kia","Lamborghini"
         ,"Land Rover","Lexus","Lincoln","Lotus","Maserati","Mazda","McLaren Automotive","Mercedes-Benz","MINI"
@@ -43,7 +47,12 @@ function load_filter(data) {
 
 function load_scenes() {
 
-    if(current_scene === "market_overview") {
+    if(current_scene === SCENE_MARKET) {
+        document.getElementById("btn-overview").className += " active";
+        let newCN = document.getElementById("btn-engine").className.replace("btn-sm active", "btn-sm");
+        document.getElementById("btn-engine").className = newCN;
+        document.getElementById("btn-fuel").className = newCN;
+
         if($("#dropdown_makes_sel").val() === "all") {
             load_scene_market(csv_data);
         }else{
@@ -52,7 +61,12 @@ function load_scenes() {
         }
     }
 
-    if(current_scene === "engine_consumption") {
+    if(current_scene === SCENE_ENGINE) {
+        document.getElementById("btn-engine").className += " active";
+        let newCN = document.getElementById("btn-engine").className.replace("btn-sm active", "btn-sm");
+        document.getElementById("btn-overview").className = newCN;
+        document.getElementById("btn-fuel").className = newCN;
+
         if($("#dropdown_makes_sel").val() === "all" && $("#dropdown_cylinders_sel").val() === "all") {
             load_scene_cylinder(csv_data);
         }else if($("#dropdown_makes_sel").val() !== "all" && $("#dropdown_cylinders_sel").val() === "all") {
@@ -66,7 +80,21 @@ function load_scenes() {
             load_scene_cylinder(filtered);
         }
     }
-    
+
+    if(current_scene === SCENE_FUEL){
+        document.getElementById("btn-fuel").className += " active";
+        let newCN = document.getElementById("btn-engine").className.replace("btn-sm active", "btn-sm");
+
+        document.getElementById("btn-overview").className = newCN;
+        document.getElementById("btn-engine").className = newCN;
+
+        if($("#dropdown_makes_sel").val() === "all") {
+            load_scene_fuel(csv_data);
+        }else{
+            let filtered = csv_data.filter((d,i) => d.Make.toLowerCase() === $("#dropdown_makes_sel").val())
+            load_scene_fuel(filtered);
+        }
+    }
 }
 
 $("#dropdown_makes_sel").change(function(){

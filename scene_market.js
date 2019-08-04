@@ -85,7 +85,12 @@ function load_scene_market(data){
     //set filters for other scenes hidden
     document.getElementById("dropdown_cylinders_sel").style.visibility = "hidden";
 
-    chart.selectAll('circle').remove();
+    // chart.selectAll('circle').remove();
+    // chart.selectAll('path').remove();
+    d3.select("#main_chart").selectAll('g').remove();
+    let chart = d3.select('#main_chart')
+        .append('g')
+        .attr("transform","translate(50,50)");
 
     chart.selectAll('circle')
         .data(data)
@@ -93,9 +98,17 @@ function load_scene_market(data){
         .append('circle')
         .attr("cx", (d,i) =>xScale(d.AverageCityMPG))
         .attr("cy", (d,i) => yScale(d.AverageHighwayMPG))
-        .attr("r", (d,i) => 4)
+        .attr("r", (d,i) => 6)
         .style("fill", (d,i) => colorScale(d.Make) )
+        .style("opacity", 0.5)
+        .style("pointer-events","visible")
+        .style("stroke", (d,i) => colorScale(d.Make) )
         .on('mouseover', function(d,i) {
+            d3.select(this)
+                .attr("r", (d,i) => 8)
+                .style('opacity', 1.0)
+                .style("cursor", "pointer");
+
             tooltip.style("opacity", 1)
             tooltip.html(d.Make + " " + d.AverageCityMPG + " CityMPG " + d.AverageHighwayMPG + " HighwayMPG")
                 .style("left",(d3.event.pageX)+"px")
@@ -103,8 +116,18 @@ function load_scene_market(data){
 
         })
         .on("mouseout", function(d) {
+            d3.select(this)
+                .attr("r", (d,i) => 6)
+                .style('opacity', 0.5)
+                .style("cursor", "default");
+
             tooltip.style("opacity", 0);
+        })
+        .on("click", function(d) {
+            current_scene = SCENE_ENGINE;
+            load_scenes();
         });
+
 
     //add axis
     d3.select('#main_chart')

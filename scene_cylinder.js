@@ -1,5 +1,12 @@
 function load_scene_cylinder(data) {
-    chart.selectAll('circle').remove();
+    // chart.selectAll('circle').remove();
+    // chart.selectAll('path').remove();
+
+    d3.select("#main_chart").selectAll('g').remove();
+    let chart = d3.select('#main_chart')
+        .append('g')
+        .attr("transform","translate(50,50)");
+
 
     chart.selectAll('circle')
         .data(data)
